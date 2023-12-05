@@ -21,11 +21,13 @@ PImage finger;
 //Variables for my silly implementation. You can delete this:
 char currentLetter = 'a';
 
+char prevLetter2 = '_';
 char prevLetter = '`';
 char nextLetter = 'b';
+char nextLetter2 = 'c';
 
 
-long cooldownTime = 125;
+long cooldownTime = 155;
 long lastButtonTime = 0;
 
 //You can modify anything in here. This is just a basic implementation.
@@ -104,15 +106,41 @@ void draw()
     text("NEXT > ", 650, 650); //draw next label
 
     //example design draw code
-    fill(255, 0, 0); //red button
-    rect(width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw left red button
-    fill(0, 255, 0); //green button
-    rect(width/2-sizeOfInputArea/2+sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw right green button
+    //fill(255, 0, 0); //red button
+    //rect(width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw left red button
+    //fill(0, 255, 0); //green button
+    //rect(width/2-sizeOfInputArea/2+sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw right green button
     textAlign(CENTER);
     fill(200);
     text("" + currentLetter, width/2, height/2-sizeOfInputArea/4); //draw current letter
-    text("" + prevLetter, width/2 - 35, height/2-sizeOfInputArea/4);
-    text("" + nextLetter, width/2 + 35, height/2-sizeOfInputArea/4);
+    text("" + prevLetter, width/2 - 20, height/2-sizeOfInputArea/4);
+    text("" + nextLetter, width/2 + 20, height/2-sizeOfInputArea/4);
+    text("" + prevLetter2, width/2 - 40, height/2-sizeOfInputArea/4);
+    text("" + nextLetter2, width/2 + 40, height/2-sizeOfInputArea/4);
+    
+    noFill();
+    stroke(255, 255, 255);
+    //circle(340, 400, 15); //R middle left hand side
+    //circle(400, 400, 15); //G middle middle
+    //circle(340, 340, 15); //letter Top left hand side
+    //circle(390, 340, 15);
+    //First column on the left
+    rect(340, 340, 40, 30, 2, 0, 0, 0);
+    rect(340, 370, 40, 30);
+    rect(340, 400, 40, 30);
+    rect(340, 430, 40, 30, 0, 0, 0, 6);
+    //middle column
+    rect(380, 340, 40, 30);
+    rect(380, 370, 40, 30);
+    rect(380, 400, 40, 30);
+    rect(380, 430, 40, 30);
+    //Third column
+    rect(420, 340, 40, 30, 0, 6, 0, 0);
+    rect(420, 370, 40, 30);
+    rect(420, 400, 40, 30);
+    rect(420, 430, 40, 30, 0, 0, 8, 0);
+    fill(0);
+    noStroke();
   }
  
  
@@ -130,38 +158,60 @@ void buttonLogic()
 {
   long time = System.currentTimeMillis();
   if((time - lastButtonTime) > cooldownTime){
-    if (mousePressed && didMouseClick(width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in left button
+    //width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2
+    //width/2-sizeOfInputArea/2+sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2
+    //width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2
+    if (mousePressed && didMouseClick(width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2, sizeOfInputArea/2-10, sizeOfInputArea/2)) //check if click in left button
     {
       currentLetter --;
       prevLetter--;
       nextLetter--;
+      prevLetter2--;
+      nextLetter2--;
       if (currentLetter<'_') //wrap around to z
         currentLetter = 'z';
       if (prevLetter<'_') //wrap around to z
         prevLetter = 'z';
       if (nextLetter<'_') //wrap around to z
         nextLetter = 'z';
+        
+      if (prevLetter2<'_') //wrap around to z
+        prevLetter2 = 'z';
+      if (nextLetter2<'_') //wrap around to z
+        nextLetter2 = 'z';
     }
-  
-    if (mousePressed && didMouseClick(width/2-sizeOfInputArea/2+sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in right button
+    //width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2
+    //width/2-sizeOfInputArea/2+sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2
+    //width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2
+    
+    //width/2-sizeOfInputArea/2+sizeOfInputArea/2, height/2-sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2 rearrangement
+    //
+    if (mousePressed && didMouseClick(width/2-sizeOfInputArea/2+sizeOfInputArea/2 +10, height/2-sizeOfInputArea/2, sizeOfInputArea/2-10, sizeOfInputArea/2)) //check if click in right button
     {
       currentLetter ++;
       prevLetter++;
       nextLetter++;
+      prevLetter2++;
+      nextLetter2++;
       if (currentLetter>'z') //wrap back to space (aka underscore)
         currentLetter = '_';
       if (prevLetter>'z') //wrap back to space (aka underscore)
         prevLetter = '_';
       if (nextLetter>'z') //wrap back to space (aka underscore)
         nextLetter = '_';
+      if (prevLetter2>'z') //wrap back to space (aka underscore)
+        prevLetter2 = '_';
+      if (nextLetter2>'z') //wrap back to space (aka underscore)
+        nextLetter2 = '_';
     }
     lastButtonTime = System.currentTimeMillis();
   }
 }
 
-void mousePressed()
+void mouseClicked()
 {
-  if (didMouseClick(width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2, sizeOfInputArea, sizeOfInputArea/2)) //check if click occured in letter area
+  //width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2, sizeOfInputArea, sizeOfInputArea/2
+  if (didMouseClick(390, 340, 20, 60)) //check if click occured in letter area
   {
     if (currentLetter=='_') //if underscore, consider that a space bar
       currentTyped+=" ";
@@ -227,6 +277,18 @@ void nextTrial()
 
   if (startTime==0) //first trial starting now
   {
+    //width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2
+    System.out.println("X of R " + (width/2-sizeOfInputArea/2));
+    System.out.println("Y of R " + (height/2-sizeOfInputArea/2+sizeOfInputArea/2));
+    //sizeOfInputArea/2, sizeOfInputArea/2
+    System.out.println("W of R " + (sizeOfInputArea/2));
+    System.out.println("H of R " + (sizeOfInputArea/2));
+    //width/2-sizeOfInputArea/2+sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2
+    System.out.println("X of G " + (width/2-sizeOfInputArea/2+sizeOfInputArea/2));
+    System.out.println("Y of G " + (height/2-sizeOfInputArea/2+sizeOfInputArea/2));
+    //width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2
+    System.out.println("X of letter " + (width/2-sizeOfInputArea/2));
+    System.out.println("h of letter " + (height/2-sizeOfInputArea/2));
     System.out.println("Trials beginning! Starting timer..."); //output we're done
     startTime = millis(); //start the timer!
   } 
